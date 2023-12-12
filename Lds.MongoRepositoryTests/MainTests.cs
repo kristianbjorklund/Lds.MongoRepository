@@ -8,29 +8,20 @@ namespace Lds.MongoRepositoryTests
   public class MainTests
   {
    
-
-    [Test]
-    public void CanDoNothing()
-    {
-      Assert.IsNull(null);
-    }
-
     [Test]
     public void Can_Get_Repo()
     {
       var repo = Repository.For<Thing>();
 
-      Assert.IsNotNull(repo);
-      Assert.IsInstanceOf<MongoRepository<Thing>>(repo);
+      Assert.That(repo, Is.Not.Null);
+      Assert.That(repo, Is.InstanceOf<MongoRepository<Thing>>());
     }
-
 
     [Test]
     public void Can_Use_Collection()
     {
       var repo = Repository.For<Thing>();
       repo.Collection.InsertOne(new Thing(null,"Test"));
-     
     }
 
     [Test]
@@ -40,9 +31,8 @@ namespace Lds.MongoRepositoryTests
       var thing = new Thing(null,"No-name");
       repo.Add(thing);
 
-      Assert.IsNotNull(thing.Id);
+      Assert.That(thing.Id, Is.Not.Null);
     }
-
 
     [Test]
     public void Can_Load_Thing()
@@ -52,9 +42,8 @@ namespace Lds.MongoRepositoryTests
 
       var thing = repo.First();
 
-      Assert.IsNotNull(thing);
-      Assert.IsInstanceOf<Thing>(thing);
+      Assert.That(thing, Is.Not.Null);
+      Assert.That(thing, Is.InstanceOf<Thing>());
     }
-
   }
 }

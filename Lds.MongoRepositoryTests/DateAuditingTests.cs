@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace Lds.MongoRepositoryTests
 {
-  class DateAuditingTests
+  internal class DateAuditingTests
   {
 
     [Test]
@@ -19,9 +19,10 @@ namespace Lds.MongoRepositoryTests
       var stuff = new Stuff(null, "No-name");
       await repo.AddAsync(stuff);
 
-      Assert.IsNotNull(stuff.Id);
-      Assert.Greater(stuff.Created, DateTime.UtcNow.AddMinutes(-5));
-      Assert.Greater(stuff.LastModified, DateTime.UtcNow.AddMinutes(-5));
+      Assert.That(stuff.Id, Is.Not.Null);
+
+      Assert.That(stuff.Created, Is.GreaterThan(DateTime.UtcNow.AddMinutes(-5)));
+      Assert.That(stuff.LastModified, Is.GreaterThan(DateTime.UtcNow.AddMinutes(-5)));
     }
 
 
@@ -32,13 +33,13 @@ namespace Lds.MongoRepositoryTests
       var stuff = new Stuff(null, "No-name2");
       await repo.AddAsync(stuff);
 
-      Assert.IsNotNull(stuff.Id);
+      Assert.That(stuff.Id, Is.Not.Null);
 
       stuff.Name = "No-name3";
       Thread.Sleep(1000);
 
       await repo.ReplaceAsync(stuff);
-      Assert.Greater(stuff.LastModified, stuff.Created);
+      Assert.That(stuff.LastModified, Is.GreaterThan(stuff.Created));
 
     }
 
